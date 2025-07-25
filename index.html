@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chitzy - Modern Chat App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            max-width: 480px;
+            margin: 0 auto;
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .app-container {
+            background-color: white;
+            height: 100vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+               position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(135deg, #00b8a9 0%, #00a19a 100%);
+    color: white;
+    padding: 15px 20px;
+    z-index: 20;
+        }
+            /* background: linear-gradient(135deg, #00b8a9 0%, #00a19a 100%);
+            color: white;
+            padding: 15px 20px;
+            position: relative;
+            z-index: 10;
+            border-radius: 12px;
+            margin-top: 20px;
+            padding: 20px;
+            margin-left: 8px;
+            margin-right: 8px;
+        } */
+        
+        
+        .search-bar {
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+               margin-top: 25px;
+        }
+        
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: white;
+            width: 100%;
+            padding-left: 8px;
+            outline: none;
+        }
+        
+        .search-bar input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .stories-container {
+            padding: 16px 0 10px 0;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            overflow-x: auto;
+        }
+
+        .story {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 10px;
+            cursor: pointer;
+            width: 80px;
+        }
+
+        .story-avatar {
+            width: 66px;
+            height: 66px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7);
+            padding: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-sizing: border-box;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(238,42,123,0.08);
+        }
+
+        .story-avatar.my-story {
+            background: #eee;
+            box-shadow: none;
+        }
+
+        .story-avatar img, .chat-avatar img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            background: #fff;
+        }
+
+        .story-name {
+            font-size: 13px;
+            color: #222;
+            margin-top: 6px;
+            max-width: 70px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .chat-item {
+             box-shadow: 0 4px 16px 0 rgba(0, 184, 169, 0.12), 0 1.5px 4px 0 rgba(0,0,0,0.06);
+        margin-left: 8px;
+        margin-right: 8px;
+            padding: 15px 20px;
+            display: flex;
+            border-radius: 14px;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+            position: relative;
+        }
+ 
+        
+        .chat-avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            margin-right: 15px;
+            position: relative;
+        }
+        
+        .online-indicator {
+            width: 12px;
+            height: 12px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border: 2px solid white;
+        }
+        
+        .chat-content {
+            flex: 1;
+        }
+        
+        .chat-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .chat-message {
+            color: #888;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .message-preview {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+        }
+        
+        .chat-time {
+            font-size: 12px;
+            color: #aaa;
+        }
+        
+        .unread-badge {
+            background-color: #00b8a9;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        
+        .status-icon {
+            color: #888;
+            margin-left: 5px;
+        }
+        
+        .bottom-nav {
+            position: fixed;
+    bottom: 0;
+    width: 96%;
+    max-width: 480px;
+    background-color: #192c2e;
+    display: flex
+;
+    justify-content: space-around;
+    padding: 12px 0;
+    border-top: 1px solid #f0f0f0;
+    z-index: 10;
+    border-radius: 25px;
+    left: 9px;
+    margin-bottom: 12px;
+}
+
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #888;
+            font-size: 12px;
+        }
+        
+        .nav-item.active {
+            color: #00b8a9;
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 3px;
+        }
+        
+        .fab-button {
+            position: fixed;
+            /* position: absolute; */
+            bottom: 65px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00b8a9 0%, #00a19a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 10px rgba(0,184,169,0.3);
+            z-index: 11;
+        }
+        
+        .filter-button {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background-color: rgba(255,255,255,0.2);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Custom icons */
+        .icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            stroke-width: 0;
+            stroke: currentColor;
+            fill: currentColor;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <h1 class="text-xl font-bold">Chitzy</h1>
+                    <svg class="w-5 h-5 ml-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.8214 2.48697 15.5291 3.33782 17L2.5 21.5L7 20.6622C8.47087 21.513 10.1786 22 12 22Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="flex items-center">
+                    <button class="mr-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+                    <button>
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="search-bar">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input type="text" placeholder="Search chats or contacts">
+            </div>
+        </div>
+        
+        <!-- Stories -->
+        <div class="stories-container">
+            <div class="flex overflow-x-auto pb-2" id="stories">
+                <div class="story">
+                    <div class="story-avatar my-story">
+                        <div class="w-full h-full bg-gray-100 rounded-full flex items-center justify-center">
+                            <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="story-name">My Story</div>
+                </div>
+                
+                <!-- <div class="story">
+                    <div class="story-avatar">
+                        <img src="sarah.jpg" alt="Sarah">
+                    </div>
+                    <div class="story-name">Sarah</div>
+                </div>
+                
+                <div class="story">
+                    <div class="story-avatar">
+                        <img src="mike.jpg" alt="Mike">
+                    </div>
+                    <div class="story-name">Mike</div>
+                </div> -->
+                
+                <div class="story">
+                    <div class="story-avatar">
+                       <a href="story.html"> <img src="prof.jpg" alt="Alisa"></a>
+                    </div>
+                    <div class="story-name">Professor</div>
+                </div>
+                
+                <!-- <div class="story">
+                    <div class="story-avatar">
+                        <img src="alex.jpeg" alt="Alex">
+                    </div>
+                    <div class="story-name">Alex</div>
+                </div>
+                
+                <div class="story">
+                    <div class="story-avatar">
+                        <img src="emma.jpg" alt="Emma">
+                    </div>
+                    <div class="story-name">Emma</div>
+                </div>
+                
+                <div class="story">
+                    <div class="story-avatar">
+                        <img src="tom.jpg" alt="Tom">
+                    </div>
+                    <div class="story-name">Tom</div>
+                </div> -->
+            </div>
+        </div>
+        
+        <!-- Filter Button -->
+        <div class="relative bg-white py-3 px-4 border-b border-gray-100">
+            <div class="text-sm font-medium text-black-700" style="font-size: 24px;"><br>All Chats</div>
+            <button class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-100 p-2 rounded-full">
+                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Chat List -->
+        <!-- <div class="chat-list" style="overflow-y: auto; max-height: calc(100vh - 320px); padding-bottom: 80px;"></div> -->
+        <div class="chat-list" ></div>
+            <div class="chat-item">
+                <div class="chat-avatar">
+                    <img src="sarah.jpg" alt="Sarah">
+                    <div class="online-indicator"></div>
+                </div>
+                <div class="chat-content">
+                    <div class="chat-name">
+                        <span>Sarah Johnson</span>
+                        <span class="chat-time">10:42 AM</span>
+                    </div>
+                    <div class="chat-message">
+                        <div class="message-preview">Hey, are we still meeting for coffee today?</div>
+                        <div class="unread-badge">3</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-item">
+                <div class="chat-avatar">
+                    <img src="mike.jpg" alt="Mike">
+                </div>
+                <div class="chat-content">
+                    <div class="chat-name">
+                        <span>Mike Smith</span>
+                        <span class="chat-time">Yesterday</span>
+                    </div>
+                    <div class="chat-message">
+                        <div class="message-preview">I sent you the project files</div>
+                        <div class="status-icon">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-item">
+                <div class="chat-avatar">
+                    <img src="jessica.avif" alt="Jessica">
+                </div>
+                <div class="chat-content">
+                    <div class="chat-name">
+                        <span>Jessica Lee</span>
+                        <span class="chat-time">Yesterday</span>
+                    </div>
+                    <div class="chat-message">
+                        <div class="message-preview">Thanks for the help with the presentation!</div>
+                        <div class="status-icon">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5h14M5 12h14M5 19h14"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-item">
+                <div class="chat-avatar">
+                    <img src="Alex.jpeg" alt="Alex">
+                    <div class="online-indicator"></div>
+                </div>
+                <div class="chat-content">
+                    <div class="chat-name">
+                        <span>Alex Wong</span>
+                        <span class="chat-time">Tuesday</span>
+                    </div>
+                    <div class="chat-message">
+                        <div class="message-preview">Let's catch up soon!</div>
+                        <div class="status-icon">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-item">
+                <div class="chat-avatar">
+                    <img src="emma.jpg" alt="Emma">
+                </div>
+                <div class="chat-content">
+                    <div class="chat-name">
+                        <span>Emma Davis</span>
+                        <span class="chat-time">Monday</span>
+                    </div>
+                    <div class="chat-message">
+                        <div class="message-preview">Did you see the latest episode?</div>
+                        <div class="status-icon">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-item">
+                <div class="chat-avatar">
+                    <img src="tom.jpg" alt="Tom">
+                </div>
+                <div class="chat-content">
+                    <div class="chat-name">
+                        <span>Tom Wilson</span>
+                        <span class="chat-time">Sunday</span>
+                    </div>
+                    <div class="chat-message">
+                        <div class="message-preview">I'll send you the address for the party</div>
+                        <div class="status-icon">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-item">
+                <div class="chat-avatar">
+                    <img src="lisa.avif" alt="Lisa">
+                </div>
+                <div class="chat-content">
+                    <div class="chat-name">
+                        <span>Lisa Brown</span>
+                        <span class="chat-time">Last week</span>
+                    </div>
+                    <div class="chat-message">
+                        <div class="message-preview">Great seeing you yesterday!</div>
+                        <div class="status-icon">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="chat-item">
+                <div class="chat-avatar">
+                    <img src="alisa.avif" alt="Lisa">
+                </div>
+                <div class="chat-content">
+                    <div class="chat-name">
+                        <span>ALisa</span>
+                        <span class="chat-time">Last month</span>
+                    </div>
+                    <div class="chat-message">
+                        <div class="message-preview">Great!!!</div>
+                        <div class="status-icon">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-item">
+                <div class="chat-avatar">
+                    <img src="prof.jpg" alt="Lisa">
+                </div>
+                <div class="chat-content">
+                    <div class="chat-name">
+                        <span>Professor</span>
+                        <span class="chat-time">Last Year</span>
+                    </div>
+                    <div class="chat-message">
+                        <div class="message-preview">Okieh!!!</div>
+                        <div class="status-icon">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Navigation -->
+        <!-- <div class="bottom-nav">
+            <div class="nav-item active">
+                <div class="nav-icon">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                </div>
+                <div>Chats</div>
+            </div>
+            
+            <div class="nav-item">
+                <div class="nav-icon">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                    </svg>
+                </div>
+                <div>Calls</div>
+            </div>
+        </div> -->
+        
+        <!-- Floating Action Button -->
+        <div class="fab-button" id="newChatBtn">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        // Make the stories section scrollable horizontally
+        const storiesContainer = document.getElementById('stories');
+        
+        // Make the filter button functional
+        const filterButton = document.querySelector('.filter-button');
+        if (filterButton) {
+            filterButton.addEventListener('click', () => {
+                alert('Filter options would appear here');
+            });
+        }
+        
+        // Make the new chat button functional
+        const newChatBtn = document.getElementById('newChatBtn');
+        newChatBtn.addEventListener('click', () => {
+            alert('Create a new chat');
+        });
+        
+        // Make chat items clickable
+        // const chatItems = document.querySelectorAll('.chat-item');
+        // chatItems.forEach(item => {
+        //     item.addEventListener('click', () => {
+        //         const name = item.querySelector('.chat-name span:first-child').textContent;
+        //         alert(`Opening chat with ${name}`);
+        //     });
+        // });
+        
+        // Make bottom nav items clickable
+        // const navItems = document.querySelectorAll('.nav-item');
+        // navItems.forEach(item => {
+        //     item.addEventListener('click', () => {
+        //         navItems.forEach(nav => nav.classList.remove('active'));
+        //         item.classList.add('active');
+        //         const tabName = item.querySelector('div:last-child').textContent;
+        //         if (tabName !== 'Chats') {
+        //             alert(`Switching to ${tabName} tab`);
+        //         }
+        //     });
+        // });
+        
+        // Make stories clickable
+        // const stories = document.querySelectorAll('.story');
+        // stories.forEach(story => {
+        //     story.addEventListener('click', () => {
+        //         const storyName = story.querySelector('.story-name').textContent;
+        //         if (storyName === 'My Story') {
+        //             alert('Create your story');
+        //         } else {
+        //             alert(`Viewing ${storyName}'s story`);
+        //         }
+        //     });
+        // });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'964b518fc679856c',t:'MTc1MzQ0Mjk1Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
