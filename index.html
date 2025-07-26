@@ -92,7 +92,7 @@
             width: 66px;
             height: 66px;
             border-radius: 50%;
-            background: linear-gradient(45deg, #34e5f9, #154044, #5114cd);
+            background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7);
             padding: 3px;
             display: flex;
             align-items: center;
@@ -284,6 +284,95 @@
             stroke: currentColor;
             fill: currentColor;
         }
+         .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00b8a9 0%, #845EC2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            border: none;
+            z-index: 100;
+        }
+
+        .logout-btn {
+            position: static;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        background: linear-gradient(135deg, #ec6765 0%, #c62e17 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            border: none;
+            z-index: 100;
+            margin-left: 8px;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .logout-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .logout-icon {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        /* Tooltip styles */
+        .logout-btn-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .tooltip {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .logout-btn-container:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Animation for the icon */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .logout-btn:hover .logout-icon {
+            animation: pulse 1s infinite;
+        }
     </style>
 </head>
 <body>
@@ -308,6 +397,11 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
                     </button>
+                        <button class="logout-btn" id="logoutBtn" aria-label="Logout">
+            <svg class="logout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M16 13v-2H7V8l-5 4 5 4v-3h9zm-1-7h6v12h-6v2h8V4H15v2z"/>
+            </svg>
+        </button>
                 </div>
             </div>
             <div class="search-bar">
@@ -389,13 +483,13 @@
         <!-- Chat List -->
         <!-- <div class="chat-list" style="overflow-y: auto; max-height: calc(100vh - 320px); padding-bottom: 80px;"></div> -->
         <div class="chat-list" ></div>
-            <div class="chat-item">
+           <a href="chatpage.html"> <div class="chat-item">
                 <div class="chat-avatar">
                     <img src="sarah.jpg" alt="Sarah">
                     <div class="online-indicator"></div>
                 </div>
                 <div class="chat-content">
-                  <a href="chatpage.html">  <div class="chat-name">
+                    <div class="chat-name">
                         <span>Sarah Johnson</span>
                         <span class="chat-time">10:42 AM</span>
                     </div>
@@ -403,8 +497,8 @@
                         <div class="message-preview">Hey, are we still meeting for coffee today?</div>
                         <div class="unread-badge">3</div>
                     </div>
-                </div></a>
-            </div>
+                </div>
+            </div></a>
             
             <div class="chat-item">
                 <div class="chat-avatar">
@@ -430,11 +524,11 @@
                 <div class="chat-avatar">
                     <img src="jessica.avif" alt="Jessica">
                 </div>
-               <div class="chat-content">
+                <a href="chatpage.html"><div class="chat-content">
                     <div class="chat-name">
                         <span>Jessica Lee</span>
                         <span class="chat-time">Yesterday</span>
-                    </div>
+                    </div></a>
                     <div class="chat-message">
                         <div class="message-preview">Thanks for the help with the presentation!</div>
                         <div class="status-icon">
@@ -647,6 +741,16 @@
         //         }
         //     });
         // });
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Here you would typically handle the logout process
+                alert('You have been logged out successfully');
+                window.location.href = 'login-page.html'; 
+                // Redirect to login page
+                // Redirect to login page or perform other logout actions
+                // window.location.href = 'login.html';
+            }
+        });
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'964b518fc679856c',t:'MTc1MzQ0Mjk1Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
