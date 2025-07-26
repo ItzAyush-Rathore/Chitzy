@@ -247,10 +247,10 @@
                 </svg>
             </button></a>
 
-            <img class="user-avatar" src="sarah.jpg" alt="Jessica">
+            <img class="user-avatar" src="jessica.avif" alt="Jessica">
 
             <div class="user-info">
-                <div class="user-name">Sarah Johnson</div>
+                <div class="user-name">Jessica LEE</div>
                 <div class="user-status">Online</div>
             </div>
             
@@ -433,7 +433,11 @@
             }
             
             // Send button click event
-            sendBtn.addEventListener('click', sendMessage);
+            sendBtn.addEventListener('click', () => {
+                const audio = new Audio('pop.mp3');
+                audio.play();
+                sendMessage();
+            });
             
             // Enter key press event
             messageInput.addEventListener('keypress', (e) => {
