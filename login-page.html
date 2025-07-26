@@ -4,47 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chitzy - Login</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
+        :root {
+            --primary-color: #00b8a9;
+            --secondary-color: #845EC2;
+            --text-color: #333;
+            --light-text: #666;
+            --lighter-text: #888;
+            --border-color: #eee;
+            --white: #fff;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            --btn-gradient: linear-gradient(135deg, var(--primary-color) 0%, #00a19a 100%);
+            --border-radius: 12px;
+            --card-radius: 24px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
             height: 100vh;
             overflow: hidden;
-            background: linear-gradient(135deg, #00b8a9 0%, #845EC2 100%);
-            color: #333;
-        }
-        
-        .login-container {
-            max-width: 480px;
-            margin: 0 auto;
-            height: 100vh;
+            background: var(--gradient);
+            color: var(--text-color);
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 20px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
             position: relative;
             z-index: 10;
-            overflow-x: hidden;
         }
-        
+
         .login-card {
-            background-color: rgba(255, 255, 255, 0.9);
+            width: 100%;
+            max-width: 450px;
+            background-color: var(--card-bg);
             backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 30px;
-            margin: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            transform: translateY(0);
-            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            border-radius: var(--card-radius);
+            padding: 40px;
+            box-shadow: 0 10px 30px var(--shadow-color);
             position: relative;
             overflow: hidden;
         }
-        
+
         .login-card::before {
             content: '';
             position: absolute;
@@ -58,134 +78,303 @@
             transition: opacity 1s ease, transform 1s ease;
             pointer-events: none;
         }
-        
+
         .login-card:hover::before {
             opacity: 1;
             transform: rotate(45deg);
         }
-        
-        .logo {
+
+        .app-title {
             text-align: center;
             margin-bottom: 30px;
         }
-        
-        .logo-text {
-            font-size: 32px;
+
+        .app-name {
+            font-size: 36px;
             font-weight: 700;
-            background: linear-gradient(135deg, #00b8a9 0%, #845EC2 100%);
+            background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             display: inline-block;
+            line-height: 1.2;
         }
-        
-        .logo-icon {
-            display: inline-block;
-            margin-left: 5px;
-            animation: bounce 2s infinite;
+
+        .welcome-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 30px;
+            text-align: center;
         }
-        
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-        
-        .input-group {
-            margin-bottom: 20px;
+
+        .form-group {
+            margin-bottom: 24px;
             position: relative;
         }
-        
-        .input-label {
+
+        .form-label {
             position: absolute;
             top: 50%;
             left: 15px;
             transform: translateY(-50%);
             font-size: 14px;
-            color: #888;
+            color: var(--lighter-text);
             pointer-events: none;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
-        
-        .input-field {
+
+        .form-input {
             width: 100%;
-            padding: 15px;
-            border: 2px solid #eee;
-            border-radius: 12px;
+            padding: 16px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
             font-size: 16px;
             background-color: rgba(255, 255, 255, 0.8);
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            font-family: 'Poppins', sans-serif;
         }
-        
-        .input-field:focus {
-            border-color: #00b8a9;
+
+        .form-input:focus {
+            border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(0, 184, 169, 0.2);
             outline: none;
         }
-        
-        .input-field:focus + .input-label,
-        .input-field:not(:placeholder-shown) + .input-label {
+
+        .form-input:focus + .form-label,
+        .form-input:not(:placeholder-shown) + .form-label {
             top: 0;
             left: 10px;
             transform: translateY(-50%);
-            background-color: white;
+            background-color: var(--white);
             padding: 0 5px;
             font-size: 12px;
-            color: #00b8a9;
+            color: var(--primary-color);
         }
-        
+
         .forgot-password {
             text-align: right;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
-        
+
         .forgot-link {
-            color: #00b8a9;
+            color: var(--primary-color);
             font-size: 14px;
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: var(--transition);
         }
-        
+
         .forgot-link:hover {
-            color: #845EC2;
+            color: var(--secondary-color);
             text-decoration: underline;
         }
-        
-        .login-btn {
-            background: linear-gradient(135deg, #00b8a9 0%, #00a19a 100%);
-            color: white;
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background: var(--btn-gradient);
+            color: var(--white);
             border: none;
-            border-radius: 12px;
-            padding: 15px;
+            border-radius: var(--border-radius);
+            padding: 16px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             position: relative;
             overflow: hidden;
             width: 100%;
+            max-width: 300px;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
         }
-        
-        .login-btn::after {
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(0, 161, 154, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            color: var(--lighter-text);
+            font-size: 14px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: var(--border-color);
+        }
+
+        .divider::before {
+            margin-right: 15px;
+        }
+
+        .divider::after {
+            margin-left: 15px;
+        }
+
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--border-color);
+            background-color: var(--white);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px var(--shadow-color);
+            border-color: transparent;
+        }
+
+        .social-btn.google:hover {
+            background-color: #DB4437;
+            color: var(--white);
+        }
+
+        .social-btn.facebook:hover {
+            background-color: #4267B2;
+            color: var(--white);
+        }
+
+        .social-btn.apple:hover {
+            background-color: #000;
+            color: var(--white);
+        }
+
+        .signup-text {
+            text-align: center;
+            font-size: 14px;
+            color: var(--light-text);
+        }
+
+        .signup-link {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .signup-link:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        .horizontal-line {
+            height: 3px;
+            background: linear-gradient(to right, 
+                rgba(0, 184, 169, 0.1), 
+                rgba(0, 184, 169, 0.8), 
+                rgba(132, 94, 194, 0.8), 
+                rgba(132, 94, 194, 0.1));
+            margin: 0 auto 30px;
+            width: 90%;
+            border-radius: 3px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .horizontal-line::after {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.5);
-            opacity: 0;
-            border-radius: 100%;
-            transform: scale(1, 1) translate(-50%);
-            transform-origin: 50% 50%;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.8), transparent);
+            animation: shimmer 3s infinite;
         }
-        
-        .login-btn:focus:not(:active)::after {
-            animation: ripple 1s ease-out;
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
-        
+
+        .bubble {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            animation: float 10s infinite ease-in-out;
+            z-index: 1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-20px) translateX(10px); }
+            50% { transform: translateY(0) translateX(20px); }
+            75% { transform: translateY(20px) translateX(10px); }
+        }
+
+        .quote-container {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 10px 20px;
+            color: rgba(255, 255, 255, 0.9);
+            font-style: italic;
+            font-size: 14px;
+            z-index: 10;
+        }
+
+        .quote-text {
+            margin-bottom: 5px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            transition: opacity 0.5s ease;
+        }
+
+        .quote-author {
+            font-weight: 500;
+            font-size: 12px;
+            opacity: 0.8;
+            transition: opacity 0.5s ease;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .fade-out {
+            animation: fadeOut 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-10px); }
+        }
+
         @keyframes ripple {
             0% {
                 transform: scale(0, 0);
@@ -200,142 +389,104 @@
                 transform: scale(40, 40);
             }
         }
-        
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 7px 14px rgba(0, 161, 154, 0.3);
-        }
-        
-        .login-btn:active {
-            transform: translateY(1px);
-        }
-        
-        .divider {
-            display: flex;
-            align-items: center;
-            margin: 25px 0;
-            color: #888;
-            font-size: 14px;
-        }
-        
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background-color: #eee;
-        }
-        
-        .divider::before {
-            margin-right: 15px;
-        }
-        
-        .divider::after {
-            margin-left: 15px;
-        }
-        
-        .social-login {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        
-        .social-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #eee;
-            background-color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .social-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-            border-color: transparent;
-        }
-        
-        .social-btn.google:hover {
-            background-color: #DB4437;
-            color: white;
-        }
-        
-        .social-btn.facebook:hover {
-            background-color: #4267B2;
-            color: white;
-        }
-        
-        .social-btn.apple:hover {
-            background-color: #000;
-            color: white;
-        }
-        
-        .signup-text {
-            text-align: center;
-            font-size: 14px;
-            color: #666;
-        }
-        
-        .signup-link {
-            color: #00b8a9;
-            font-weight: 600;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .signup-link:hover {
-            color: #845EC2;
-            text-decoration: underline;
-        }
-        
-        .quote-container {
-            text-align: center;
-            padding: 20px;
-            color: rgba(255, 255, 255, 0.9);
-            font-style: italic;
-            font-size: 14px;
-            position: relative;
-            z-index: 10;
-        }
-        
-        .quote-text {
-            margin-bottom: 5px;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
-        
-        .quote-author {
-            font-weight: 500;
-            font-size: 12px;
-            opacity: 0.8;
-        }
-        
-        .bubble {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            animation: float 10s infinite ease-in-out;
-            z-index: 1;
-        }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .login-card {
+                padding: 30px;
             }
-            25% {
-                transform: translateY(-20px) translateX(10px);
+            
+            .app-name {
+                font-size: 32px;
             }
-            50% {
-                transform: translateY(0) translateX(20px);
+            
+            .welcome-text {
+                font-size: 18px;
+                margin-bottom: 25px;
             }
-            75% {
-                transform: translateY(20px) translateX(10px);
+            
+            .form-input {
+                padding: 14px;
+            }
+            
+            .btn {
+                padding: 14px;
+            }
+            
+            .quote-container {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 25px 20px;
+                border-radius: 20px;
+            }
+            
+            .app-name {
+                font-size: 28px;
+            }
+            
+            .welcome-text {
+                font-size: 16px;
+                margin-bottom: 20px;
+            }
+            
+            .form-group {
+                margin-bottom: 20px;
+            }
+            
+            .form-input {
+                padding: 12px;
+                font-size: 14px;
+            }
+            
+            .form-label {
+                font-size: 13px;
+            }
+            
+            .social-login {
+                gap: 15px;
+            }
+            
+            .social-btn {
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        @media (max-height: 700px) {
+            .login-card {
+                padding: 20px;
+            }
+            
+            .app-title {
+                margin-bottom: 15px;
+            }
+            
+            .welcome-text {
+                margin-bottom: 15px;
+            }
+            
+            .form-group {
+                margin-bottom: 15px;
+            }
+            
+            .forgot-password {
+                margin-bottom: 15px;
+            }
+            
+            .btn-container {
+                margin-bottom: 15px;
+            }
+            
+            .divider {
+                margin: 15px 0;
+            }
+            
+            .social-login {
+                margin-bottom: 15px;
             }
         }
     </style>
@@ -344,62 +495,53 @@
     <!-- Animated Bubbles Background -->
     <div id="bubbles"></div>
     
-    <div class="login-container">
+    <div class="container">
         <div class="login-card">
-            <div class="logo">
-                <span class="logo-text">Chitzy</span>
-                <span class="logo-icon">
-                    <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.8214 2.48697 15.5291 3.33782 17L2.5 21.5L7 20.6622C8.47087 21.513 10.1786 22 12 22Z" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <defs>
-                            <linearGradient id="gradient" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#00b8a9"/>
-                                <stop offset="1" stop-color="#845EC2"/>
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                </span>
+            <div class="app-title">
+                <h1 class="app-name">Chitzy</h1>
             </div>
             
-            <h2 class="text-2xl font-bold text-center mb-6">Welcome Back!</h2>
+            <h2 class="welcome-text">Welcome Back!</h2>
             
             <form id="loginForm">
-                <div class="input-group">
-                    <input type="text" id="username" class="input-field" placeholder=" " required>
-                    <label for="username" class="input-label">Username or Email</label>
+                <div class="form-group">
+                    <input type="text" id="username" class="form-input" placeholder=" ">
+                    <label for="username" class="form-label">Username or Email</label>
                 </div>
                 
-                <div class="input-group">
-                    <input type="password" id="password" class="input-field" placeholder=" ">
-                    <label for="password" class="input-label">Password</label>
+                <div class="form-group">
+                    <input type="password" id="password" class="form-input" placeholder=" ">
+                    <label for="password" class="form-label">Password</label>
                 </div>
                 
                 <div class="forgot-password">
                     <a href="#" class="forgot-link">Forgot Password?</a>
                 </div>
                 
-                <a href="index.html"><button type="submit" class="login-btn" id="loginBtn">
-                    Log In
-                </button></a>
+                <div class="btn-container">
+                    <button type="submit" class="btn" id="loginBtn">Log In</button>
+                </div>
             </form>
+            
+            <div class="horizontal-line"></div>
             
             <div class="divider">or continue with</div>
             
             <div class="social-login">
                 <button class="social-btn google">
-                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
                     </svg>
                 </button>
                 
                 <button class="social-btn facebook">
-                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M13.397,20.997v-8.196h2.765l0.411-3.209h-3.176V7.548c0-0.926,0.258-1.56,1.587-1.56h1.684V3.127C15.849,3.039,15.025,2.997,14.201,3c-2.444,0-4.122,1.492-4.122,4.231v2.355H7.332v3.209h2.753v8.202H13.397z"/>
                     </svg>
                 </button>
                 
                 <button class="social-btn apple">
-                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M16.462,15.639c-0.268,0.5-0.558,0.961-0.869,1.382c-0.456,0.615-0.828,1.042-1.113,1.275c-0.445,0.41-0.922,0.62-1.433,0.635c-0.367,0-0.809-0.104-1.323-0.316c-0.516-0.211-0.989-0.316-1.422-0.316c-0.453,0-0.939,0.105-1.459,0.316c-0.52,0.211-0.938,0.322-1.256,0.332c-0.485,0.021-0.969-0.195-1.453-0.646c-0.312-0.258-0.702-0.701-1.17-1.328c-0.5-0.67-0.911-1.446-1.233-2.33c-0.347-0.957-0.521-1.883-0.521-2.777c0-1.027,0.222-1.914,0.667-2.662c0.35-0.598,0.814-1.07,1.395-1.418c0.58-0.347,1.208-0.525,1.884-0.537c0.37,0,0.855,0.115,1.458,0.338c0.6,0.226,0.986,0.341,1.157,0.341c0.127,0,0.556-0.134,1.286-0.4c0.689-0.248,1.271-0.349,1.744-0.305c1.29,0.104,2.259,0.611,2.905,1.521c-1.152,0.699-1.722,1.679-1.71,2.938c0.012,0.979,0.366,1.793,1.059,2.439C15.755,15.233,16.091,15.47,16.462,15.639z M12.921,4.567c0,0.768-0.28,1.485-0.839,2.147c-0.675,0.787-1.49,1.242-2.371,1.169c-0.012-0.094-0.018-0.193-0.018-0.297c0-0.754,0.328-1.56,0.909-2.223c0.29-0.336,0.659-0.616,1.106-0.839c0.447-0.219,0.87-0.341,1.269-0.366C12.99,4.367,12.921,4.467,12.921,4.567z"/>
                     </svg>
                 </button>
@@ -409,11 +551,11 @@
                 Don't have an account? <a href="#" class="signup-link">Sign Up</a>
             </div>
         </div>
-        
-        <div class="quote-container">
-            <p class="quote-text" style="visibility: hidden;">"The best way to predict the future is to create it."</p>
-            <p class="quote-author" style="visibility: hidden;">— Abraham Lincoln</p>
-        </div>
+    </div>
+    
+    <div class="quote-container">
+        <p class="quote-text" id="quoteText"></p>
+        <p class="quote-author" id="quoteAuthor"></p>
     </div>
 
     <script>
@@ -451,10 +593,11 @@
                 }
                 
                 // Add loading state to button
+                const originalBtnText = loginBtn.textContent;
                 loginBtn.innerHTML = `
-                    <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <svg style="display:inline-block;vertical-align:middle;animation:spin 1s linear infinite;margin-right:8px" width="16" height="16" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="4" opacity="0.25"></circle>
+                        <path fill="none" stroke="currentColor" stroke-width="4" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" opacity="0.75"></path>
                     </svg>
                     Logging in...
                 `;
@@ -462,36 +605,9 @@
                 // Simulate login process
                 setTimeout(() => {
                     alert(`Welcome back, ${username}!`);
-                    loginBtn.innerHTML = 'Log In';
-                    window.location.href = 'index.html'; // Redirect to home page
+                    loginBtn.textContent = originalBtnText;
                 }, 1500);
-            });
-            
-            // Interactive bubbles that follow mouse movement
-            document.addEventListener('mousemove', (e) => {
-                const bubbles = document.querySelectorAll('.bubble');
-                const mouseX = e.clientX;
-                const mouseY = e.clientY;
-                
-                bubbles.forEach((bubble, index) => {
-                    const bubbleRect = bubble.getBoundingClientRect();
-                    const bubbleCenterX = bubbleRect.left + bubbleRect.width / 2;
-                    const bubbleCenterY = bubbleRect.top + bubbleRect.height / 2;
-                    
-                    const distX = mouseX - bubbleCenterX;
-                    const distY = mouseY - bubbleCenterY;
-                    const distance = Math.sqrt(distX * distX + distY * distY);
-                    
-                    if (distance < 300) {
-                        const strength = 30 / distance;
-                        const moveX = distX * strength * -0.05;
-                        const moveY = distY * strength * -0.05;
-                        
-                        bubble.style.transform = `translate(${moveX}px, ${moveY}px)`;
-                    } else {
-                        bubble.style.transform = 'translate(0, 0)';
-                    }
-                });
+                window.location.href = "index.html"; // Redirect to dashboard after login
             });
             
             // Add ripple effect to login button
@@ -517,7 +633,110 @@
                     ripple.remove();
                 }, 600);
             });
+            
+            // Interactive bubbles that follow mouse movement
+            document.addEventListener('mousemove', (e) => {
+                const bubbles = document.querySelectorAll('.bubble');
+                const mouseX = e.clientX;
+                const mouseY = e.clientY;
+                
+                bubbles.forEach((bubble) => {
+                    const bubbleRect = bubble.getBoundingClientRect();
+                    const bubbleCenterX = bubbleRect.left + bubbleRect.width / 2;
+                    const bubbleCenterY = bubbleRect.top + bubbleRect.height / 2;
+                    
+                    const distX = mouseX - bubbleCenterX;
+                    const distY = mouseY - bubbleCenterY;
+                    const distance = Math.sqrt(distX * distX + distY * distY);
+                    
+                    if (distance < 300) {
+                        const strength = 30 / distance;
+                        const moveX = distX * strength * -0.05;
+                        const moveY = distY * strength * -0.05;
+                        
+                        bubble.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                    } else {
+                        bubble.style.transform = 'translate(0, 0)';
+                    }
+                });
+            });
+            
+            // Rotating quotes
+            const quotes = [
+                {
+                    text: "The best way to predict the future is to invent it.",
+                    author: "— Alan Kay"
+                },
+                {
+                    text: "Technology is best when it brings people together.",
+                    author: "— Matt Mullenweg"
+                },
+                {
+                    text: "Innovation distinguishes between a leader and a follower.",
+                    author: "— Steve Jobs"
+                },
+                {
+                    text: "The joy of discovery is certainly the liveliest that the mind can ever feel.",
+                    author: "— Claude Bernard"
+                },
+                {
+                    text: "Creativity is intelligence having fun.",
+                    author: "— Albert Einstein"
+                },
+                {
+                    text: "The future belongs to those who believe in the beauty of their dreams.",
+                    author: "— Eleanor Roosevelt"
+                }
+            ];
+            
+            const quoteText = document.getElementById('quoteText');
+            const quoteAuthor = document.getElementById('quoteAuthor');
+            let currentQuoteIndex = 0;
+            
+            // Function to update quote with animation
+            function updateQuote() {
+                // Add fade out class
+                quoteText.classList.add('fade-out');
+                quoteAuthor.classList.add('fade-out');
+                
+                // After fade out completes, update text and fade in
+                setTimeout(() => {
+                    currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+                    quoteText.textContent = quotes[currentQuoteIndex].text;
+                    quoteAuthor.textContent = quotes[currentQuoteIndex].author;
+                    
+                    quoteText.classList.remove('fade-out');
+                    quoteAuthor.classList.remove('fade-out');
+                    quoteText.classList.add('fade-in');
+                    quoteAuthor.classList.add('fade-in');
+                    
+                    // Remove fade-in class after animation completes
+                    setTimeout(() => {
+                        quoteText.classList.remove('fade-in');
+                        quoteAuthor.classList.remove('fade-in');
+                    }, 500);
+                }, 500);
+            }
+            
+            // Set initial quote
+            quoteText.textContent = quotes[0].text;
+            quoteAuthor.textContent = quotes[0].author;
+            quoteText.classList.add('fade-in');
+            quoteAuthor.classList.add('fade-in');
+            
+            // Change quote every 8 seconds
+            setInterval(updateQuote, 8000);
+            
+            // Add CSS animation for spinning
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(style);
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9652a63e204341c7',t:'MTc1MzUxOTgyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9653583754c53c3e',t:'MTc1MzUyNzExNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
